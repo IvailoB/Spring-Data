@@ -21,11 +21,96 @@ public class Main {
         switch (exNum) {
             case 2 -> exTwo();
             case 3 -> exThree();
+            case 4 -> exFour();
             case 5 -> exFive();
             case 6 -> exSix();
             case 7 -> exSEven();
             case 9 -> exNine();
         }
+    }
+
+    private static void exFour() throws IOException, SQLException {
+
+        System.out.println("Enter minion info: " + System.lineSeparator()+ "Minion:");
+        String[] minionsInfo = reader.readLine().split(" ");
+        String minionName = minionsInfo[1];
+        int minionAge = Integer.parseInt(minionsInfo[2]);
+        String minionTown = minionsInfo[3];
+
+        System.out.println("Enter villain name: "+ System.lineSeparator()+"Villain:");
+        String villainName = reader.readLine().split(" ")[1];
+
+        final String GET_TOWNS_BY_NAME = "select id\n" +
+                "from towns as t where t.name = ?;";
+        final String INSERT_INTO_TOWNS = "insert into towns(name)\n" +
+                "values(?)";
+        final String TOWN_ADDED_FORMAT = "Town %s was added to the database%n";
+        final String VILLAIN_ADDED_FORMAT = "Villain %s was added to the database";
+
+        final String GET_VILLAIN_BY_NAME = "select v.id from villains as v where v.name = ?;";
+        final String INSERT_VILLAIN = "insert into villains(name,evilness_factor) values(?,?)";
+        final String EVILNESS_FACTOR = "evil";
+        final String INSERT_INTO_MINIONS = "insert into minions(name,age,town_id) values(?,?,?)";
+        final String SELECT_LAST_MINION = "select m.id from minions as m order by m.id desc limit 1";
+        final String INSERT_INTO_MINIONS_VILLAINS = "insert into minions_villains(minion_id, villain_id) values(?,?)";
+        final  String RESULT_FORMAT = "Successfully added %s to be minion of %s%n";
+
+        int townId = getId(List.of(minionTown),
+                GET_TOWNS_BY_NAME,
+                INSERT_INTO_TOWNS,
+                TOWN_ADDED_FORMAT);
+
+        int villainId = getId(List.of(villainName,EVILNESS_FACTOR),
+                GET_VILLAIN_BY_NAME,
+                INSERT_VILLAIN,
+                VILLAIN_ADDED_FORMAT);
+
+        PreparedStatement insertMinionStatement = connection.prepareStatement(INSERT_INTO_MINIONS);
+        insertMinionStatement.setString(1,minionName);
+        insertMinionStatement.setInt(2,minionAge);
+        insertMinionStatement.setInt(3,townId);
+
+        insertMinionStatement.executeUpdate();
+
+        PreparedStatement lastMinion = connection.prepareStatement(SELECT_LAST_MINION);
+
+        ResultSet resultSet = lastMinion.executeQuery();
+        int lastMinionId = resultSet.getInt("id");
+
+        PreparedStatement insertIntoMinionsVillains = connection.prepareStatement(INSERT_INTO_MINIONS_VILLAINS);
+
+        insertIntoMinionsVillains.setInt(1,lastMinionId);
+        insertIntoMinionsVillains.setInt(2,villainId);
+
+        System.out.printf(RESULT_FORMAT,minionName,villainName);
+
+    }
+
+    private static int getId(List<String> arguments, String selectQuery, String insertQuery, String printFormat) throws SQLException {
+        String name = arguments.get(0);
+
+        PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
+        selectStatement.setString(1, name);
+        ResultSet resultSet = selectStatement.executeQuery();
+
+        if (!resultSet.next()) {
+            PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+
+            for (int i = 1; i <= arguments.size(); i++){
+                insertStatement.setString(i,arguments.get(i-1));
+            }
+
+            insertStatement.executeUpdate();
+
+            ResultSet newResultSet = selectStatement.executeQuery();
+            newResultSet.next();
+            int id = newResultSet.getInt("id");
+
+            System.out.printf(printFormat, name);
+            return id;
+        }
+
+        return resultSet.getInt("id");
     }
 
     private static void exSix() throws IOException, SQLException {
@@ -137,7 +222,12 @@ public class Main {
 
         // String villainName = findVillainNameById(villainId);
         String villainName = findEntityNameById("villains", villainId);
+        if (villainName.contains("No villain with ID")) {
+            System.out.println(villainName);
+            return;
+        }
         System.out.println("Villain: " + villainName);
+
         // getAllMinionsByVillainId(villainId);
         PreparedStatement preparedStatement = connection.prepareStatement("select m.name , m.age from minions as m\n" +
                 "join minions_villains as mv on m.id = mv.minion_id\n" +
@@ -146,6 +236,7 @@ public class Main {
         preparedStatement.setInt(1, villainId);
 
         ResultSet resultSet = preparedStatement.executeQuery();
+
         int counter = 0;
         while (resultSet.next()) {
             System.out.printf("%d. %s %d%n",
@@ -185,6 +276,9 @@ public class Main {
                 .prepareStatement(query);
         preparedStatement.setInt(1, entityId);
         ResultSet resultSet = preparedStatement.executeQuery();
+        if (!resultSet.next()) {
+            return String.format("No villain with ID %d exists in the database", entityId);
+        }
         resultSet.next();
         return resultSet.getString(1);
     }
