@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b9d354bb-7312-4a82-9b4a-94c7e4335f7b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../.idea/Spring-Data-.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../exercise/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../exercise/.idea/libraries/mysql_connector_java_8_0_27.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../exercise/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../exercise/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../exercise/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../exercise/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../exercise/exercise.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../exercise/out/production/exercise/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../exercise/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +36,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/Spring-Data-/lecture/SoftUni-Custom-ORM-Part1-main"
+    "last_opened_file_path": "D:/Spring-Data-/exercise/Exercise Java DB Apps Introduction"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -57,6 +48,7 @@
       <option name="presentableId" value="Default" />
       <updated>1666613263027</updated>
       <workItem from="1666613266300" duration="24000" />
+      <workItem from="1666614986953" duration="2509000" />
     </task>
     <servers />
   </component>

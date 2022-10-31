@@ -25,7 +25,31 @@ public class Main {
             case 5 -> exFive();
             case 6 -> exSix();
             case 7 -> exSEven();
+            case 8 -> exSEight();
             case 9 -> exNine();
+        }
+    }
+
+    private static void exSEight() throws IOException, SQLException {
+        final String UPDATE_MINION_AGE = "UPDATE minions SET age = age + 1, name = LOWER(name) WHERE id = ?";
+        final String SELECT_ALL_MINIONS = "SELECT name, age FROM minions";
+
+        String[] input = reader.readLine().split("\\s+");
+
+        for (String id : input) {
+
+            PreparedStatement updateMinion = connection.prepareStatement(UPDATE_MINION_AGE);
+
+            updateMinion.setInt(1, Integer.parseInt(id));
+
+            updateMinion.executeUpdate();
+        }
+
+        PreparedStatement selectMinions = connection.prepareStatement(SELECT_ALL_MINIONS);
+        ResultSet printMinions = selectMinions.executeQuery();
+
+        while(printMinions.next()) {
+            System.out.println(printMinions.getString("name") + " " + printMinions.getInt("age"));
         }
     }
 
