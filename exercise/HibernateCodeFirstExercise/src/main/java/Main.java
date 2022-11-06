@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
-
+        // Виж persistence.xml TODO-to
         EntityManager entityManager = Persistence
                 .createEntityManagerFactory("code_first")
                 .createEntityManager();

@@ -13,7 +13,7 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.connection.username" value="root"/>
         <!--            TODO:Write your password and username-->
-            <property name="hibernate.connection.password" value=""/>
+            <property name="hibernate.connection.password" value="123456"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
