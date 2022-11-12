@@ -19,6 +19,5 @@ public class Main {
         entityManager.getTransaction().begin();
 
         entityManager.getTransaction().commit();
-
     }
 }
